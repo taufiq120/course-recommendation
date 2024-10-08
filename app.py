@@ -21,7 +21,7 @@ course_titles = data['Course Name'].values
 selected_course = st.selectbox("Choose a Course", course_titles)
 
 # Build the KNN model
-st.cache_data
+@st.cache_data
 def build_knn_model(data):
     tfidf = TfidfVectorizer(stop_words='english') #gives weight to topics
     tfidf_matrix = tfidf.fit_transform(data['Course Description'])
