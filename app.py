@@ -4,27 +4,26 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import NearestNeighbors
 
 # Load the dataset
-@st.cache_data
 def load_data():
-    # Load the dataset (update path to the correct one)
     data = pd.read_csv('Coursera.csv')
     data['Course Description'] = data['Course Description'].fillna('')
-    data = data.dropna(subset=['Course Name'])  # Drop rows with missing Course Titles
+    data = data.dropna(subset=['Course Name'])  # This Drops rows with missing Course Titles
     return data
 
 data = load_data()
 
 # Streamlit UI
+
 st.title("Course Recommendation System")
 st.write("Select a course to find similar ones.")
-
 # Dropdown to select a course
 course_titles = data['Course Name'].values
 selected_course = st.selectbox("Choose a Course", course_titles)
+
 # Build the KNN model
 st.cache_data
 def build_knn_model(data):
-    tfidf = TfidfVectorizer(stop_words='english')
+    tfidf = TfidfVectorizer(stop_words='english') #gives weight to topics
     tfidf_matrix = tfidf.fit_transform(data['Course Description'])
     
     knn = NearestNeighbors(n_neighbors=6, metric='cosine')
